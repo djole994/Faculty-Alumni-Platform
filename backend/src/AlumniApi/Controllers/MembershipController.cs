@@ -67,11 +67,11 @@ public class MembershipController : ControllerBase
 
         //generisati neki smtp za obavijest adminu i alumnisti o novoj pristupnici, naknadno dodajem
 
-        // 4. Obaveštenje korisniku (ako lokacija nije nađena)
+        // 4. Obavještenje (ako lokacija nije nađena)
         string warningMsg = "";
         if (!geoInfo.IsVerified)
         {
-            warningMsg = "Napomena: Nismo uspeli automatski da lociramo vaš grad na mapi, administrator će to ručno pregledati.";
+            warningMsg = "Napomena: Nismo uspjeli automatski da lociramo vaš grad na mapi, administrator će to ručno pregledati.";
         }
 
         return Ok(new { message = "Vaša pristupnica je primljena." + warningMsg });
