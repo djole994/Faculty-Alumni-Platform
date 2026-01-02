@@ -14,7 +14,7 @@ To solve this, I implemented a **Hybrid Caching Strategy** with smart fallback l
 > **Impact:** This approach reduced external API calls by approx. 80% during testing and prevents the "empty map" issue for users with misspelled cities.
 
 #### Geocoding Workflow Diagram
-![Smart Geocoding Workflow Diagram](assets/diagrams/geocoding-flowchart.svg)
+![Smart Geocoding Workflow Diagram](assets/diagrams/geocoding-flowchart.svg).
 
 ### 💡 Why this approach? (Project Constraints & Quality Assurance)
 This architecture was specifically chosen to meet two critical client requirements:
