@@ -77,4 +77,54 @@ public class MembershipController : ControllerBase
         return Ok(new { message = "Vaša pristupnica je primljena." + warningMsg });
     }
 
+ [HttpGet("map/public")]
+ public async Task<ActionResult<List<MapLocationPublicDto>>> GetPublicMap(
+     [FromQuery] bool verifiedOnly = true,
+     [FromQuery] int precision = 2 // 2 ≈ ~1km, 3 ≈ ~100m
+ )
+ {
+     precision = Math.Clamp(precision, 1, 6);
+
+     // Uzimamo samo koordinatu + GeoCacheId (za grupisanje), bez PII
+     var rows = await _context.AlumniProfiles
+         .AsNoTracking()
+         .Where(p => p.IsApproved)
+         .Where(p => p.Latitude != null && p.Longitude != null)
+         .Where(p => !verifiedOnly || p.IsLocationVerified)
+         .Select(p => new
+         {
+             Lat = p.Latitude!.Value,
+             Lng = p.Longitude!.Value,
+             p.GeoCacheId
+         })
+         .ToListAsync();
+
+     static double R(double v, int dec) => Math.Round(v, dec);
+
+     string KeyFor(double lat, double lng, int? geoCacheId)
+     {
+         // Ako ima GeoCacheId grupišem po njemu
+         if (geoCacheId != null) return $"g:{geoCacheId}";
+
+         // Ako nema, grupišem po zaokruženim koordinatama (privatnost + grupisanje)
+         return $"c:{R(lat, precision)}|{R(lng, precision)}";
+     }
+
+     var groups = rows
+         .GroupBy(r => KeyFor(r.Lat, r.Lng, r.GeoCacheId))
+         .Select(g =>
+         {
+             var first = g.First();
+             return new MapLocationPublicDto(
+                 Lat: R(first.Lat, precision),
+                 Lng: R(first.Lng, precision),
+                 Count: g.Count()
+             );
+         })
+         .ToList();
+
+     return Ok(groups);
+ }
+
+
 }
