@@ -58,6 +58,4 @@ One of the primary engineering goals was to map users worldwide accurately witho
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
 
 
-➡️ Details: [docs/geocoding.md](docs/geocoding.md)
-
 
