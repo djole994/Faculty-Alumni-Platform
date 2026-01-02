@@ -16,6 +16,37 @@ To solve this, I implemented a **Hybrid Caching Strategy** with smart fallback l
 #### Geocoding Workflow Diagram
 ![Smart Geocoding Workflow Diagram](../assets/diagrams/geocoding-flowchart.svg)
 
+## 🔗 Key code references
+
+### Backend (API)
+- 🧠 **Geocoding service (core flow):**  
+  - [`LocationService.cs`](../backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
+  - Interface: [`IGeocodingService.cs`](../backend/src/AlumniApi/Services/Geocoding/IGeocodingService.cs)
+
+- 🧩 **Normalization / cache-key:**  
+  - [`StringHelper.cs`](../backend/src/AlumniApi/Helpers/StringHelper.cs)
+
+- 🧾 **Endpoint that triggers geocoding:**  
+  - `POST /api/membership/apply` → [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
+
+- 🌍 **Map data endpoint:**  
+  - `GET /api/membership/map` → [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
+
+- 🗃️ **Data models / caching table:**  
+  - [`GeoCache model`](../backend/src/AlumniApi/Models/Caching/GeoCache.cs)  
+  - (optional) DbContext: [`AlumniContext`](../backend/src/AlumniApi/Models/AlumniContext.cs)
+
+- ⚙️ **HttpClient configuration:**  
+  - [`Program.cs`](../backend/src/AlumniApi/Program.cs)
+
+### Frontend (World Map)
+- 🗺️ **World map component:**  
+  - [`WorldMap` / `MapPage`](../frontend/src/components/WorldMap/WorldMap.jsx)
+
+- 🔌 **API client (fetch map markers):**  
+  - [`api client / axios`](../frontend/src/api/httpClient.js)
+
+
 
 ### 💡 Why this approach? (Project Constraints & Quality Assurance)
 This architecture was specifically chosen to meet two critical client requirements:
