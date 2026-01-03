@@ -33,7 +33,7 @@ To solve this, I implemented a **Hybrid Caching Strategy** with smart fallback l
   - `GET /api/membership/map` → [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - 🗃️ **Data models / caching table:**  
-  - [`GeoCache model`](../backend/src/AlumniApi/Models/Caching/GeoCache.cs)  
+  - [`GeoCache model`](../backend/src/AlumniApi/Models/GeoCache.cs)  
   - (optional) DbContext: [`AlumniContext`](../backend/src/AlumniApi/Models/AlumniContext.cs)
 
 - ⚙️ **HttpClient configuration:**  
