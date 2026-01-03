@@ -30,7 +30,6 @@ Replacing outdated lists and manual workflows, the application provides a modern
 
 ### Frontend
 - **React** - SPA (Single Page Application)  
-- **Axios** - HTTP client  
 - **Leaflet / React-Leaflet** - map rendering
 
 ### Integrations
