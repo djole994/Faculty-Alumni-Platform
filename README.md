@@ -46,27 +46,23 @@ One of the primary engineering goals was to map users worldwide accurately witho
 #### Geocoding Workflow Diagram
 ![Smart Geocoding Workflow Diagram](assets/diagrams/geocoding-flowchart.svg)
 
-### 🔎 Key Code Highlights
+### 💻 Implementation shortcuts
 
-Here are the critical parts of the backend architecture:
+- 🧠 **Geocoding Core Logic**
+  [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
+  *The heart of the system: handles local cache checks, API requests, and fallback saving.*
 
-* **📍 The Brain (Geocoding Logic)**
-    * Implementation of the hybrid caching strategy.
-    * 👉 [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
+- 🧩 **Cache Key Generator**
+  [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)
+  *Normalizes city and country names to ensure cache hits.*
 
-* **🛡️ Data Integrity**
-    * Standardizing input for cache lookups.
-    * 👉 [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)
+- 🧭 **API Controllers**
+  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) & [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)
+  *Endpoints for processing applications and serving map data.*
 
-* **🔌 API Endpoints**
-    * **Submit Application:** Orchestrates the validation and saving process.
-        [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs)
-    * **Public Map:** Returns locations for the heatmap/clusters.
-        [`MembershipController.GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)
-
-* **⚙️ Setup & DI**
-    * Configuring `HttpClient` headers for Nominatim compliance.
-    * 👉 [`Program.cs`](backend/src/AlumniApi/Program.cs)
+- ⚙️ **Service Configuration**
+  [`Program.cs`](backend/src/AlumniApi/Program.cs)
+  *Dependency Injection and HttpClient setup.*
 
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
 
