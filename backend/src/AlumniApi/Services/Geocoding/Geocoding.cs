@@ -1,10 +1,11 @@
-using AlumniApi.Helpers;
-using AlumniApi.Models;
-using AlumniApi.Models.AlProfile;
 using AlumniApi.Models.Caching;
+using AlumniApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Text.Json;
+using AlumniApi.Helpers;
+using AlumniApi.Models.AlProfile;
+using System.Collections.Concurrent;
 
 namespace AlumniApi.Services.GeocodingService
 {
@@ -13,101 +14,133 @@ namespace AlumniApi.Services.GeocodingService
         private readonly AlumniContext _context;
         private readonly HttpClient _httpClient;
 
+        // Lock po searchKey (sprečava duple upise za isti grad)
+        private static readonly ConcurrentDictionary<string, SemaphoreSlim> _locks = new();
+
+        // GLOBALNI RATE LIMIT ZA NOMINATIM (1 zahtjev u sekundi)
+        private static readonly SemaphoreSlim _nominatimRateLimit = new SemaphoreSlim(1, 1);
+
         public Geocoding(AlumniContext context, HttpClient httpClient)
         {
             _context = context;
             _httpClient = httpClient;
         }
 
-        public async Task<GeoCache> ResolveLocationAsync(string inputCity, Country country, CancellationToken ct = default)
+        public async Task<GeoCache> ResolveLocationAsync(string inputCity, Country country)
         {
-            if (string.IsNullOrWhiteSpace(inputCity))
-                throw new ArgumentException("City is required.", nameof(inputCity));
+            // 1. GENERIŠEMO SEARCH KEY
+            string searchKey = StringHelper.GenerateSearchKey(inputCity, country.Name);
 
-            if (country is null)
-                throw new ArgumentNullException(nameof(country));
+            // 2. PRVI POKUŠAJ: CACHE (bez locka – brzi put)
+            var cached = await _context.GeoCaches.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.SearchKey == searchKey);
 
-            if (string.IsNullOrWhiteSpace(country.Name))
-                throw new ArgumentException("Country.Name is required.", nameof(country));
+            // Ako postoji zapis (čak i IsVerified = false), NE ZOVEMO API
+            if (cached != null)
+                return cached;
 
-            var city = inputCity.Trim();
+            // 3. LOCK PO SEARCH KEY-U (sprečava stampede)
+            var sem = _locks.GetOrAdd(searchKey, _ => new SemaphoreSlim(1, 1));
+            await sem.WaitAsync();
 
-            // 1) GENERIŠI KLJUČ
-            var searchKey = StringHelper.GenerateSearchKey(city, country.Name);
-
-            // 2) POKUŠAJ 1: BAZA (KEŠ)
-            var cached = await _context.GeoCaches
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.SearchKey == searchKey, ct);
-
-            if (cached != null) return cached;
-
-            // 3) FALLBACK: koordinate države + IsVerified=false
-            var newEntry = new GeoCache
-            {
-                City = city,
-                Country = country.Name,
-                SearchKey = searchKey,
-                IsVerified = false,
-                Latitude = country.DefaultLatitude,
-                Longitude = country.DefaultLongitude
-            };
-
-            // 4) NOMINATIM API (ako uspije, pregazi fallback)
             try
             {
-                if (!string.IsNullOrWhiteSpace(country.IsoCode))
+                // 4. DRUGA PROVJERA UNUTAR LOCKA
+                cached = await _context.GeoCaches.AsNoTracking()
+                    .SingleOrDefaultAsync(x => x.SearchKey == searchKey);
+
+                if (cached != null)
+                    return cached;
+
+                // 5. KREIRAMO FALLBACK ZAPIS (KOORDINATE DRŽAVE)
+                var newEntry = new GeoCache
                 {
-                    var url =
-                        $"https://nominatim.openstreetmap.org/search" +
-                        $"?city={Uri.EscapeDataString(city)}" +
-                        $"&countrycodes={country.IsoCode.Trim().ToLowerInvariant()}" +
-                        $"&format=json&limit=1&addressdetails=1";
+                    City = inputCity,
+                    Country = country.Name,
+                    SearchKey = searchKey,
+                    IsVerified = false,
+                    Latitude = country.DefaultLatitude,
+                    Longitude = country.DefaultLongitude
+                };
 
-                    using var response = await _httpClient.GetAsync(url, ct);
+                // 6. POZIV NOMINATIM API-JA (RATE LIMIT: 1 REQ / SEK)
+                try
+                {
+                    // ČEKAMO RED ZA NOMINATIM (GLOBALNO)
+                    await _nominatimRateLimit.WaitAsync();
 
-                    if (response.IsSuccessStatusCode)
+                    try
                     {
-                        var json = await response.Content.ReadAsStringAsync(ct);
-                        using var doc = JsonDocument.Parse(json);
+                        string url =
+                            $"https://nominatim.openstreetmap.org/search?city={Uri.EscapeDataString(inputCity)}" +
+                            $"&countrycodes={country.IsoCode.ToLower()}&format=json&limit=1&addressdetails=1";
 
-                        if (doc.RootElement.ValueKind == JsonValueKind.Array &&
-                            doc.RootElement.GetArrayLength() > 0)
+                        var response = await _httpClient.GetAsync(url);
+
+                        if (response.IsSuccessStatusCode)
                         {
-                            var result = doc.RootElement[0];
+                            var json = await response.Content.ReadAsStringAsync();
+                            using var doc = JsonDocument.Parse(json);
 
-                            if (result.TryGetProperty("lat", out var latProp) &&
-                                result.TryGetProperty("lon", out var lonProp))
+                            if (doc.RootElement.GetArrayLength() > 0)
                             {
-                                var latStr = latProp.GetString();
-                                var lonStr = lonProp.GetString();
+                                var result = doc.RootElement[0];
 
-                                if (double.TryParse(latStr, NumberStyles.Float, CultureInfo.InvariantCulture, out var lat) &&
-                                    double.TryParse(lonStr, NumberStyles.Float, CultureInfo.InvariantCulture, out var lon))
-                                {
-                                    newEntry.Latitude = lat;
-                                    newEntry.Longitude = lon;
-                                    newEntry.IsVerified = true;
-                                }
+                                // Našli smo tačan grad → prepisujemo fallback
+                                newEntry.Latitude = double.Parse(
+                                    result.GetProperty("lat").GetString()!,
+                                    CultureInfo.InvariantCulture);
+
+                                newEntry.Longitude = double.Parse(
+                                    result.GetProperty("lon").GetString()!,
+                                    CultureInfo.InvariantCulture);
+
+                                newEntry.IsVerified = true;
                             }
                         }
                     }
+                    finally
+                    {
+                        // OBEZBJEĐUJEMO 1 SEKUND RAZMAKA IZMEĐU API POZIVA
+                        await Task.Delay(1000);
+                        _nominatimRateLimit.Release();
+                    }
+                }
+                catch
+                {
+                    // Ako API pukne, ostaje fallback (koordinate države)
+                }
+
+                // 7. UPIS U BAZU
+                _context.GeoCaches.Add(newEntry);
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return newEntry;
+                }
+                catch (DbUpdateException ex) when (IsUniqueViolation(ex))
+                {
+                    // Ako je drugi thread/server već upisao isti SearchKey
+                    return await _context.GeoCaches.AsNoTracking()
+                        .SingleAsync(x => x.SearchKey == searchKey);
                 }
             }
-            catch (OperationCanceledException)
+            finally
             {
-                throw;
-            }
-            catch
-            {
-               
-            }
+                // 8. OTKLJUČAVANJE
+                sem.Release();
 
-            // 5) SAČUVAJ U BAZU
-            _context.GeoCaches.Add(newEntry);
-            await _context.SaveChangesAsync(ct);
+                // Čišćenje lock-a da dictionary ne raste beskonačno
+                if (sem.CurrentCount == 1)
+                    _locks.TryRemove(searchKey, out _);
+            }
+        }
 
-            return newEntry;
+        private static bool IsUniqueViolation(DbUpdateException ex)
+        {
+            return ex.InnerException is Microsoft.Data.SqlClient.SqlException sqlEx
+                   && (sqlEx.Number == 2601 || sqlEx.Number == 2627);
         }
     }
 }
