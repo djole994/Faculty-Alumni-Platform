@@ -46,23 +46,15 @@ One of the primary engineering goals was to map users worldwide accurately witho
 #### Geocoding Workflow Diagram
 ![Smart Geocoding Workflow Diagram](assets/diagrams/geocoding-flowchart.svg)
 
-### 💻 Implementation shortcuts
+### 📂 Key Implementation Details
 
-- 🧠 **Geocoding Core Logic**
-  [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
-  *The heart of the system: handles local cache checks, API requests, and fallback saving.*
-
-- 🧩 **Cache Key Generator**
-  [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)
-  *Normalizes city and country names to ensure cache hits.*
-
-- 🧭 **API Controllers**
-  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) & [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)
-  *Endpoints for processing applications and serving map data.*
-
-- ⚙️ **Service Configuration**
-  [`Program.cs`](backend/src/AlumniApi/Program.cs)
-  *Dependency Injection and HttpClient setup.*
+| Component | Responsibility | Source Code |
+| :--- | :--- | :--- |
+| **🧠 Geocoding Core** | Main logic for caching, API calls & fallback strategy | [`GeocodingService.cs`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs) |
+| **🧩 Helper Utilities** | Generates unique composite keys (`city|country`) | [`StringHelper.cs`](backend/src/AlumniApi/Helpers/StringHelper.cs) |
+| **📝 Registration Flow** | Handles user submission & coordinates resolution | [`MembershipController.cs`](backend/src/AlumniApi/Controllers/MembershipController.cs) |
+| **🌍 Map Data API** | Returns optimized JSON for the frontend map | [`MembershipController.cs`](backend/src/AlumniApi/Controllers/MembershipController.cs) |
+| **⚙️ Configuration** | HttpClient setup with User-Agent policies | [`Program.cs`](backend/src/AlumniApi/Program.cs) |
 
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
 
