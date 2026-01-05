@@ -1,12 +1,22 @@
 # 🎓 Faculty Alumni Platform (Showcase)
 
+> **Public Showcase / Subset**
+>
+> This repository contains a curated public subset of the project (selected modules, docs, and examples).
+> The full production codebase is **private**.
+>
+> ✅ No secrets (keys, connection strings, tokens) are included.  
+> ✅ No institution-specific data, naming, or internal infrastructure details are included.  
+> ✅ UI/branding and production deployment configuration are intentionally omitted.
+
+---
+
 ## What’s included in this public showcase
 
-- Backend: selected API modules (DTOs, services, helpers) related to geocoding & validation
-- Frontend: map component (Leaflet) + example integration
-- Docs: architecture notes and flow diagrams
-- Tests: minimal test coverage for showcased modules
-
+- Backend: selected API modules (DTOs, services, helpers) related to geocoding & validation  
+- Frontend: map component (Leaflet) + example integration  
+- Docs: architecture notes and flow diagrams  
+- Tests: minimal test coverage for showcased modules  
 
 A centralized digital platform connecting students and graduates of the Medical Faculty.
 
@@ -23,7 +33,7 @@ Replacing outdated lists and manual workflows, the application provides a modern
 - 🌍 Visualize global Alumni presence via an **interactive world map**  
 - 🗓️ Register online for **congresses and educational events**  
 - 💼 Access an exclusive **job board** and read inspiring **Alumni Stories**  
-- 💳 View financial reports and subscription statuses (Administrative Dashboard). **financial module**  
+- 💳 View financial reports and subscription statuses (Administrative Dashboard) — **financial module**  
 - ⚙️ Benefit from automation (**geolocation, verification**) and scalability (**data caching**)  
 
 ---
@@ -56,23 +66,20 @@ One of the primary engineering goals was to map users worldwide accurately witho
 
 ### 💻 Implementation shortcuts
 
-- 🧠 **Geocoding Core Logic**
-  [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
+- 🧠 **Geocoding Core Logic**  
+  [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)  
   *The heart of the system: handles local cache checks, API requests, and fallback saving.*
 
-- 🧩 **Cache Key Generator**
-  [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)
+- 🧩 **Cache Key Generator**  
+  [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)  
   *Normalizes city and country names to ensure cache hits.*
 
-- 🧭 **API Controllers**
-  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) & [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)
+- 🧭 **API Controllers**  
+  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) & [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
   *Endpoints for processing applications and serving map data.*
 
-- ⚙️ **Service Configuration**
-  [`Program.cs`](backend/src/AlumniApi/Program.cs)
+- ⚙️ **Service Configuration**  
+  [`Program.cs`](backend/src/AlumniApi/Program.cs)  
   *Dependency Injection and HttpClient setup.*
 
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
-
-
-
