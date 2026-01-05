@@ -1,4 +1,12 @@
-# 🎓 Medical Faculty Alumni Platform
+# 🎓 Faculty Alumni Platform (Showcase)
+
+## What’s included in this public showcase
+
+- Backend: selected API modules (DTOs, services, helpers) related to geocoding & validation
+- Frontend: map component (Leaflet) + example integration
+- Docs: architecture notes and flow diagrams
+- Tests: minimal test coverage for showcased modules
+
 
 A centralized digital platform connecting students and graduates of the Medical Faculty.
 
