@@ -1,6 +1,6 @@
 using Xunit;
 using Moq;
-using Moq.Protected; // Bitno za HttpClient mock
+using Moq.Protected; 
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text;
@@ -8,7 +8,7 @@ using AlumniApi.Services.GeocodingService;
 using AlumniApi.Models;
 using AlumniApi.Models.Caching;
 using AlumniApi.Helpers;
-using AlumniApi.Models.AlProfile; // Tvoj helper za stringove
+using AlumniApi.Models.AlProfile; 
 
 public class GeocodingTests
 {
