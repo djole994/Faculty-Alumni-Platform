@@ -1,7 +1,6 @@
 -- backend/scripts/seed/001_countries.sql
 SET NOCOUNT ON;
 
--- Preporuka: unique index (pokreni jednom)
 -- CREATE UNIQUE INDEX UX_Countries_IsoCode ON dbo.Countries(IsoCode);
 
 INSERT INTO dbo.Countries (Name, IsoCode, DefaultLatitude, DefaultLongitude)
