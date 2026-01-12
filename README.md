@@ -121,7 +121,8 @@ To prevent slow or unreliable SMTP servers from blocking API requests, email del
   *Encapsulates SMTP transport and keeps API and worker decoupled from the provider.*
 
 - ⚙️ **Service Configuration**  
-  [`Program.cs`](backend/src/AlumniApi/Program.cs)  
+  [`Program.cs`](backend/src/AlumniApi/Program.cs)
+    [`EmailingExtensions.cs`](backend/src/AlumniApi/Helpers/EmailingExtension.cs)
   *Registers the background worker and SMTP sender via Dependency Injection.*
 
 ➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
