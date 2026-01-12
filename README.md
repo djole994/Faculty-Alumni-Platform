@@ -57,7 +57,10 @@ Replacing outdated lists and manual workflows, the application provides a modern
 
 ## 🚀 Key Challenges & Solutions
 
-### 1. Intelligent Geocoding & Fallback-First Caching
+<details>
+<summary><strong>1. Intelligent Geocoding & Fallback-First Caching</strong></summary>
+
+<br/>
 
 One of the primary engineering goals was to map users worldwide accurately without overloading external APIs, while still handling typos and imperfect data entry gracefully.
 
@@ -75,7 +78,8 @@ One of the primary engineering goals was to map users worldwide accurately witho
   *Normalizes city and country names to ensure cache hits.*
 
 - 🧭 **API Controllers**  
-  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) & [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
+  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) &  
+  [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
   *Endpoints for processing applications and serving map data.*
 
 - ⚙️ **Service Configuration**  
@@ -84,7 +88,14 @@ One of the primary engineering goals was to map users worldwide accurately witho
 
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
 
-### 2. Async Email Delivery (Outbox Pattern + Background Worker)
+</details>
+
+---
+
+<details>
+<summary><strong>2. Async Email Delivery (Outbox Pattern + Background Worker)</strong></summary>
+
+<br/>
 
 To prevent slow or unreliable SMTP servers from blocking API requests, email delivery is fully decoupled from the request lifecycle using a DB-backed outbox and a background worker.
 
@@ -114,4 +125,6 @@ To prevent slow or unreliable SMTP servers from blocking API requests, email del
   *Registers the background worker and SMTP sender via Dependency Injection.*
 
 ➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
+
+</details>
 
