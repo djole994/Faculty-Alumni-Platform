@@ -13,7 +13,7 @@ builder.Services.AddHttpClient<IGeocodingService, Geocoding>(client =>
     client.BaseAddress = new Uri("https://nominatim.openstreetmap.org/");
     client.DefaultRequestHeaders.UserAgent.ParseAdd("AlumniAppPortfolio/1.0 (contact: developer@example.com)");
 });
-
+builder.Services.AddEmailing(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
