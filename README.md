@@ -83,3 +83,35 @@ One of the primary engineering goals was to map users worldwide accurately witho
   *Dependency Injection and HttpClient setup.*
 
 ➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
+
+### 2. Async Email Delivery (Outbox Pattern + Background Worker)
+
+To prevent slow or unreliable SMTP servers from blocking API requests, email delivery is fully decoupled from the request lifecycle using a DB-backed outbox and a background worker.
+
+#### Email Outbox Workflow Diagram
+![Email Outbox Workflow Diagram](assets/diagrams/email-outbox-flowchart.svg)
+
+### 💻 Implementation shortcuts
+
+- 📩 **Outbox Insert (API layer)**  
+  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
+  *Creates the email message and inserts it into the EmailOutbox table (no direct SMTP call).*
+
+- 🔁 **Background Worker**  
+  [`EmailOutboxWorker`](backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
+  *Periodically polls pending outbox records and sends emails asynchronously.*
+
+- 🔄 **Retry & Backoff Logic**  
+  [`EmailOutboxWorker.GetNextDelay`](backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
+  *Handles retry scheduling and marks emails as Failed after max attempts.*
+
+- ✉️ **SMTP Abstraction**  
+  [`IEmailSender`](backend/src/AlumniApi/Services/Email/IEmailSender.cs)  
+  *Encapsulates SMTP transport and keeps API and worker decoupled from the provider.*
+
+- ⚙️ **Service Configuration**  
+  [`Program.cs`](backend/src/AlumniApi/Program.cs)  
+  *Registers the background worker and SMTP sender via Dependency Injection.*
+
+➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
+
