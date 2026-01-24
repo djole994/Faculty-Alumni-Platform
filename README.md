@@ -140,6 +140,10 @@ To prevent slow or unreliable SMTP servers from blocking API requests, email del
 > are intentionally **excluded** from this public repository.
 
 The Alumni Platform is deployed on a **private Linux VPS** using a traditional yet robust production setup, designed for clarity, security, and full control.
+Public traffic goes through HTTPS via Nginx.  
+The application runs behind the reverse proxy, while administrative access is restricted to a private VPN network.
+
+![Production Deployment Diagram](docs/production-deployment.svg)
 
 ### Deployment Overview
 
