@@ -129,3 +129,59 @@ To prevent slow or unreliable SMTP servers from blocking API requests, email del
 
 </details>
 
+
+## 🏗 Production Deployment (Private Infrastructure)
+
+> ⚠️ **Note**
+>
+> Production deployment configuration, infrastructure credentials, and automation scripts  
+> are intentionally **excluded** from this public repository.
+
+The Alumni Platform is deployed on a **private Linux VPS** using a traditional yet robust production setup, designed for clarity, security, and full control.
+
+### Deployment Overview
+
+- **Operating System:** Linux (Ubuntu Server)
+- **Web Server:** Nginx (reverse proxy + static file hosting)
+- **Backend:** ASP.NET Core (.NET 8) running as a `systemd` service
+- **Frontend:** React (Vite) built artifacts served via Nginx
+- **Database:** Microsoft SQL Server (Linux)
+- **SSL:** Let’s Encrypt (Certbot)
+- **Process Management:** `systemd`
+- **Secrets Management:** environment variables (not committed)
+
+### Access & Security Model
+
+- 🔐 Direct server access is restricted
+- 🔒 Administrative access is performed via **SSH**, optionally tunneled through **WireGuard VPN**
+- 🚫 No production secrets are stored in the repository
+- 🧩 Environment-specific configuration is injected at runtime
+
+### Deployment Workflow (Simplified)
+
+1. **Frontend**
+   - React app is built locally (`npm run build`)
+   - Static `dist/` artifacts are uploaded to the VPS
+   - Nginx serves the SPA with strict API routing rules
+
+2. **Backend**
+   - ASP.NET Core application is published as a release build (`dotnet publish -c Release`)
+   - Runs as a managed `systemd` service
+   - Background workers (Email Outbox) start automatically
+
+3. **Database**
+   - SQL Server database restored from backup
+   - Application-specific database user with limited permissions
+
+### Why This Matters
+
+This deployment approach emphasizes:
+- ✅ Predictable production behavior
+- ✅ Clear separation of concerns (frontend / backend / database)
+- ✅ Secure handling of credentials
+- ✅ Infrastructure understanding beyond local development
+
+
+
+
+
