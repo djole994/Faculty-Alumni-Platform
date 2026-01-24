@@ -143,7 +143,7 @@ The Alumni Platform is deployed on a **private Linux VPS** using a traditional y
 Public traffic goes through HTTPS via Nginx.  
 The application runs behind the reverse proxy, while administrative access is restricted to a private VPN network.
 
-![Production Deployment Diagram](docs/production-deployment.svg)
+![Production Deployment Diagram](assets/diagrams/production-deployment.svg)
 
 ### Deployment Overview
 
