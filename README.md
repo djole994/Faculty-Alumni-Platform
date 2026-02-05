@@ -33,7 +33,7 @@ Replacing outdated lists and manual workflows, the application provides a modern
 - 🌍 Visualize global Alumni presence via an **interactive world map**  
 - 🗓️ Register online for **congresses and educational events**  
 - 💼 Access an exclusive **job board** and read inspiring **Alumni Stories**  
-- 💳 View financial reports and subscription statuses (Administrative Dashboard) — **financial module**  
+- 💳 View financial reports and subscription statuses (Administrative Dashboard) - **financial module**  
 - ⚙️ Benefit from automation (**geolocation, verification**) and scalability (**data caching**)  
 
 ---
