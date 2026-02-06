@@ -254,11 +254,11 @@ This deployment approach demonstrates:
 This public showcase repository is intentionally organized to highlight  
 **key engineering concepts** rather than provide a full runnable system.
 
-- `docs/` — architecture diagrams, flowcharts, and visual documentation  
-- `code/backend/` — selected API controllers, services, data access, and security logic  
-- `code/frontend/` — representative React components and map integration examples  
-- `infra/` — example infrastructure snippets (Nginx, SQL constraints, environment setup)  
-- `notes/` — engineering decisions, trade-offs, and production learnings  
+- `docs/` - architecture diagrams, flowcharts, and visual documentation  
+- `code/backend/` - selected API controllers, services, data access, and security logic  
+- `code/frontend/` - representative React components and map integration examples  
+- `infra/` - example infrastructure snippets (Nginx, SQL constraints, environment setup)  
+- `notes/` - engineering decisions, trade-offs, and production learnings  
 
 The full production source code, UI branding, and deployment automation  
 remain private and are intentionally excluded.
