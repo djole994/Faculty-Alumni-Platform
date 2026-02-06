@@ -89,21 +89,21 @@ performance in real-world conditions.
 ### 🔑 Key files
 
 - 🧠 **Geocoding Core Logic**  
-  [`GeocodingService.ResolveLocationAsync`](code/backend/Services/Geocoding/GeocodingService.cs)  
+  [`GeocodingService.ResolveLocationAsync`](code/backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)  
   *Handles cache lookup, external API resolution, and fallback persistence.*
 
 - 🧩 **Cache Key Normalization**  
-  [`StringHelper.GenerateSearchKey`](code/backend/Helpers/StringHelper.cs)  
+  [`StringHelper.GenerateSearchKey`](code/backend/src/AlumniApi/Helpers/StringHelper.cs)  
   *Applies trimming, lowercasing, whitespace collapse, and diacritics removal  
   to maximize cache hit consistency.*
 
 - 🧭 **Application Endpoints**  
-  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)  
-  [`MembershipController.GetMap`](code/backend/Controllers/MembershipController.cs)  
+  [`MembershipController.SubmitApplication`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)  
+  [`MembershipController.GetMap`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)  
   *Processes membership applications and serves map visualization data.*
 
 - ⚙️ **Service Configuration**  
-  [`Program.cs`](code/backend/Program.cs)  
+  [`Program.cs`](code/backend/src/AlumniApi/Program.cs)  
   *Registers geocoding services and HttpClient dependencies via DI.*
 
 - 🗄 **Data Integrity Guarantees**  
