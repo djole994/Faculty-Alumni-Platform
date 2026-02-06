@@ -37,7 +37,6 @@ Users can:
 
 - Create professional profiles and become **verified members** of the organization  
 - Visualize global Alumni presence via an **interactive world map**  
-- Register online for **congresses and educational events**  
 - Access an exclusive **job board** and read inspiring **Alumni Stories**  
 - View financial reports and subscription statuses through an **administrative dashboard**  
 - Benefit from automation (**geolocation, verification**) and scalable data handling (**caching, background processing**)
