@@ -166,6 +166,54 @@ This design ensures:
 
 </details>
 
+
+<details>
+<summary><strong>3. Secure Public Application Flow (Anti-Abuse & Data Protection)</strong></summary>
+
+<br/>
+
+Public membership applications required strong protection against automated abuse,  
+duplicate submissions, and unauthorized data exposure, while still preserving a  
+smooth user experience.
+
+The solution combines **multi-layer validation**, **bot-resistance techniques**,  
+and **database-level least-privilege access control** to ensure secure and  
+reliable processing of sensitive personal data.
+
+#### Secure Application Flow Diagram
+![Secure Application Flow](docs/diagrams/secure-apply-flow.svg)
+
+### 🔑 Key files
+
+- 🛡 **Anti-Bot Protection (Honeypot + CAPTCHA)**  
+  [`MembershipController.SubmitApplication`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)  
+  *Detects automated submissions via hidden form fields and verifies CAPTCHA tokens  
+  before any database interaction.*
+
+- ✅ **Client & Server Validation Layers**  
+  [`MembershipApplicationDto`](code/backend/src/AlumniApi/DTOs/MembershipApplicationDto.cs)  
+  [`ModelStateExtensions`](code/backend/src/AlumniApi/Validation/ModelStateExtensions.cs)  
+  *Ensures consistent validation both in the browser and on the server.*
+
+- 🔒 **Database Least-Privilege Access**  
+  [`sql_permissions.sql`](infra/sql/sql_permissions.sql)  
+  *Application DB user is restricted to INSERT operations on `AlumniProfiles`  
+  and limited SELECT access only where strictly required.*
+
+- 🧱 **Data Integrity Constraints**  
+  [`sql_constraints.sql`](infra/sql/sql_constraints.sql)  
+  *Prevents duplicates and enforces structural consistency of stored data.*
+
+- 🌐 **Reverse Proxy Protection**  
+  [`nginx.example.conf`](infra/nginx/nginx.example.conf)  
+  *Implements rate limiting and request filtering for repeated submissions  
+  from the same IP address.*
+
+➡️ Details: [`docs/security-apply-flow.md`](docs/security-apply-flow.md)
+
+</details>
+
+
 ---
 
 ## 🏗 Production Deployment
