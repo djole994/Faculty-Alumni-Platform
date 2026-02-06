@@ -38,11 +38,25 @@ Users can:
 - Create professional profiles and become **verified members** of the organization  
 - Visualize global Alumni presence via an **interactive world map**  
 - Access an exclusive **job board** and read inspiring **Alumni Stories**  
-- View financial reports and subscription statuses through an **administrative dashboard**  
 - Benefit from automation (**geolocation, verification**) and scalable data handling (**caching, background processing**)
+- View financial reports and subscription statuses through an **administrative dashboard**
+- Register online for **congresses and educational events**  
 
 The platform is designed with a strong focus on **security, data integrity, and real-world deployment practices**,  
 reflecting production requirements rather than demo-level functionality.
+
+---
+
+## 🚧 Roadmap / Planned features
+
+Planned improvements focus on extending production capabilities and long-term scalability:
+
+- Advanced analytics and reporting dashboards for administrative insights  
+- Extended event management workflows and participant automation  
+- Improved background job processing and notification reliability  
+- Enhanced security hardening, auditing, and monitoring capabilities  
+- Performance optimization and caching strategy expansion
+
 
 ---
 
