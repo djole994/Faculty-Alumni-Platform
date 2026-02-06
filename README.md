@@ -165,6 +165,7 @@ This design ensures:
 ➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
 
 </details>
+
 ---
 
 <details>
