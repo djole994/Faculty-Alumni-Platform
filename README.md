@@ -301,17 +301,17 @@ or potential collaboration opportunities:
 ## 🛠 Tech Stack
 
 ### Backend
-- **.NET 8 / ASP.NET Core Web API** — service-oriented architecture  
-- **Entity Framework Core** — Code-First data modeling  
-- **SQL Server** — relational persistence and constraints  
-- **Dependency Injection & layered design** — maintainable architecture  
+- **.NET 8 / ASP.NET Core Web API** - service-oriented architecture  
+- **Entity Framework Core** - Code-First data modeling  
+- **SQL Server** - relational persistence and constraints  
+- **Dependency Injection & layered design** - maintainable architecture  
 
 ### Frontend
-- **React (SPA)** — client-side application structure  
-- **Leaflet / React-Leaflet** — interactive global Alumni map  
+- **React (SPA)** - client-side application structure  
+- **Leaflet / React-Leaflet** - interactive global Alumni map  
 
 ### Integrations
-- **Nominatim (OpenStreetMap)** — location geocoding service
+- **Nominatim (OpenStreetMap)** - location geocoding service
 
 
 
