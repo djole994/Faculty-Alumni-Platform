@@ -311,7 +311,7 @@ rather than UI completeness.
 If you'd like to discuss the architecture, engineering decisions,  
 or potential collaboration opportunities:
 
-- 💼 LinkedIn: (https://www.linkedin.com/in/djordjeradovic/)
+💼 LinkedIn: (https://www.linkedin.com/in/djordjeradovic/)
 
 
 
