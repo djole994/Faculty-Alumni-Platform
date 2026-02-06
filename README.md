@@ -289,13 +289,6 @@ These snippets focus on **security, reliability, and real-world production behav
 rather than UI completeness.
 ---
 
-## 📬 Contact
-
-If you'd like to discuss the architecture, engineering decisions,  
-or potential collaboration opportunities:
-
-- 💼 LinkedIn: (https://www.linkedin.com/in/djordjeradovic/)
-
 
 
 ## 🛠 Tech Stack
@@ -312,6 +305,13 @@ or potential collaboration opportunities:
 
 ### Integrations
 - **Nominatim (OpenStreetMap)** - location geocoding service
+
+## 📬 Contact
+
+If you'd like to discuss the architecture, engineering decisions,  
+or potential collaboration opportunities:
+
+- 💼 LinkedIn: (https://www.linkedin.com/in/djordjeradovic/)
 
 
 
