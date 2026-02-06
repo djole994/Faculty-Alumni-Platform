@@ -65,7 +65,7 @@ Replacing outdated lists and manual workflows, the application provides a modern
 One of the primary engineering goals was to map users worldwide accurately without overloading external APIs, while still handling typos and imperfect data entry gracefully.
 
 #### Geocoding Workflow Diagram
-![Smart Geocoding Workflow Diagram](assets/diagrams/geocoding-flowchart.svg)
+![Smart Geocoding Workflow Diagram](docs/diagrams/geocoding-flowchart.svg)
 
 ### 💻 Implementation shortcuts
 
@@ -100,7 +100,7 @@ One of the primary engineering goals was to map users worldwide accurately witho
 To prevent slow or unreliable SMTP servers from blocking API requests, email delivery is fully decoupled from the request lifecycle using a DB-backed outbox and a background worker.
 
 #### Email Outbox Workflow Diagram
-![Email Outbox Workflow Diagram](assets/diagrams/email-outbox-flowchart.svg)
+![Email Outbox Workflow Diagram](docs/diagrams/email-outbox-flowchart.svg)
 
 ### 💻 Implementation shortcuts
 
