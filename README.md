@@ -271,13 +271,13 @@ remain private and are intentionally excluded.
 The following files demonstrate representative **production-level patterns**:
 
 - **Application Flow & Validation**  
-  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)
+  [`MembershipController.SubmitApplication`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - **Geocoding Resolution & Caching Strategy**  
-  [`GeocodingService.ResolveLocationAsync`](code/backend/Services/Geocoding/GeocodingService.cs)
+  [`GeocodingService.ResolveLocationAsync`](code/backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
 
 - **Async Email Reliability (Outbox Worker)**  
-  [`EmailOutboxWorker`](code/backend/Services/Email/EmailOutboxWorker.cs)
+  [`EmailOutboxWorker`](code/backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)
 
 - **Database Integrity Constraints**  
   [`infra/sql/sql_constraints.sql`](infra/sql/sql_constraints.sql)
