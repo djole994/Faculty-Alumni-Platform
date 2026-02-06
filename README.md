@@ -165,7 +165,7 @@ This design ensures:
 ➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
 
 </details>
-
+---
 
 <details>
 <summary><strong>3. Secure Public Application Flow (Anti-Abuse & Data Protection)</strong></summary>
