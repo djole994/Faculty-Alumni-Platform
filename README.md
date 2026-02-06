@@ -65,7 +65,7 @@ High-level production architecture showing public traffic flow,
 reverse proxy termination, application runtime, database boundary,
 and VPN-restricted administrative access.
 
-![Production Architecture](docs/diagrams/production_architecture.png)
+![Production Architecture](docs/diagrams/production-architecture.svg)
 
 ---
 
