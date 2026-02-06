@@ -57,6 +57,15 @@ Planned improvements focus on extending production capabilities and long-term sc
 - Enhanced security hardening, auditing, and monitoring capabilities  
 - Performance optimization and caching strategy expansion
 
+---
+
+## 🏗️ Architecture
+
+High-level production architecture showing public traffic flow,
+reverse proxy termination, application runtime, database boundary,
+and VPN-restricted administrative access.
+
+![Production Architecture](docs/diagrams/production_architecture.png)
 
 ---
 
@@ -165,7 +174,6 @@ The Alumni Platform is deployed on a **private Linux VPS** using a traditional y
 Public traffic goes through HTTPS via Nginx.  
 The application runs behind the reverse proxy, while administrative access is restricted to a private VPN network.
 
-![Production Deployment Diagram](docs/diagrams/production-deployment.svg)
 
 ### Deployment Overview
 
