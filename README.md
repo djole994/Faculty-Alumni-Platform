@@ -137,20 +137,20 @@ This design ensures:
 ### 🔑 Key files
 
 - 📩 **Outbox Insert (API layer)**  
-  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)  
+  [`MembershipController.SubmitApplication`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)  
   *Creates an email event and persists it in the EmailOutbox table instead  
   of sending immediately.*
 
 - 🔁 **Background Worker Processing**  
-  [`EmailOutboxWorker`](code/backend/Services/Email/EmailOutboxWorker.cs)  
+  [`EmailOutboxWorker`](code/backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
   *Polls pending messages, sends emails asynchronously, and updates status.*
 
 - 🔄 **Retry & Backoff Strategy**  
-  [`EmailOutboxWorker.GetNextDelay`](code/backend/Services/Email/EmailOutboxWorker.cs)  
+  [`EmailOutboxWorker.GetNextDelay`](code/backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
   *Implements progressive retry scheduling and terminal failure handling.*
 
 - ✉️ **SMTP Abstraction Layer**  
-  [`IEmailSender`](code/backend/Services/Email/IEmailSender.cs)  
+  [`IEmailSender`](code/backend/src/AlumniApi/Services/Email/IEmailSender.cs)  
   *Decouples transport implementation from API and worker logic.*
 
 - 🧾 **Idempotency & Consistency**  
@@ -158,8 +158,8 @@ This design ensures:
   *Prevents duplicate message processing and enforces data consistency.*
 
 - ⚙️ **Service Registration**  
-  [`Program.cs`](code/backend/Program.cs)  
-  [`EmailingExtensions.cs`](code/backend/Helpers/EmailingExtensions.cs)  
+  [`Program.cs`](code/backend/src/AlumniApi/Program.cs)  
+  [`EmailingExtensions.cs`](code/backend/src/AlumniApi/Helpers/EmailingExtensions.cs)  
   *Registers the worker and email services via Dependency Injection.*
 
 ➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
