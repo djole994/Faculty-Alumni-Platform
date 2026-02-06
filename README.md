@@ -249,22 +249,70 @@ This deployment approach demonstrates:
 
 
 ---
+## 🗂 Repository Structure
+
+This public showcase repository is intentionally organized to highlight  
+**key engineering concepts** rather than provide a full runnable system.
+
+- `docs/` — architecture diagrams, flowcharts, and visual documentation  
+- `code/backend/` — selected API controllers, services, data access, and security logic  
+- `code/frontend/` — representative React components and map integration examples  
+- `infra/` — example infrastructure snippets (Nginx, SQL constraints, environment setup)  
+- `notes/` — engineering decisions, trade-offs, and production learnings  
+
+The full production source code, UI branding, and deployment automation  
+remain private and are intentionally excluded.
+
+
+---
+
+## 🔎 Selected Engineering Snippets
+
+The following files demonstrate representative **production-level patterns**:
+
+- **Application Flow & Validation**  
+  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)
+
+- **Geocoding Resolution & Caching Strategy**  
+  [`GeocodingService.ResolveLocationAsync`](code/backend/Services/Geocoding/GeocodingService.cs)
+
+- **Async Email Reliability (Outbox Worker)**  
+  [`EmailOutboxWorker`](code/backend/Services/Email/EmailOutboxWorker.cs)
+
+- **Database Integrity Constraints**  
+  [`infra/sql/sql_constraints.sql`](infra/sql/sql_constraints.sql)
+
+- **Reverse Proxy & Production Routing Example**  
+  [`infra/nginx/nginx.example.conf`](infra/nginx/nginx.example.conf)
+
+These snippets focus on **security, reliability, and real-world production behavior**  
+rather than UI completeness.
+---
+
+## 📬 Contact
+
+If you'd like to discuss the architecture, engineering decisions,  
+or potential collaboration opportunities:
+
+- 💼 LinkedIn: (https://www.linkedin.com/in/djordjeradovic/)
+
+
+
 ## 🛠 Tech Stack
 
 ### Backend
-- **.NET 8 (ASP.NET Core Web API)** - service-oriented architecture  
-- **Entity Framework Core** - Code-First approach  
-- **SQL Server** - relational database  
-- **Dependency Injection** + **Repository Pattern**
+- **.NET 8 / ASP.NET Core Web API** — service-oriented architecture  
+- **Entity Framework Core** — Code-First data modeling  
+- **SQL Server** — relational persistence and constraints  
+- **Dependency Injection & layered design** — maintainable architecture  
 
 ### Frontend
-- **React** - SPA (Single Page Application)  
-- **Leaflet / React-Leaflet** - map rendering
+- **React (SPA)** — client-side application structure  
+- **Leaflet / React-Leaflet** — interactive global Alumni map  
 
 ### Integrations
-- **Nominatim (OpenStreetMap)** - location geocoding  
+- **Nominatim (OpenStreetMap)** — location geocoding service
 
----
 
 
 
