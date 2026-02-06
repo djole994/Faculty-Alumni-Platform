@@ -68,7 +68,105 @@ and VPN-restricted administrative access.
 ![Production Architecture](docs/diagrams/production-architecture.svg)
 
 ---
+## 🚀 Key Challenges & Solutions
 
+<details>
+<summary><strong>1. Intelligent Geocoding & Fallback-First Caching</strong></summary>
+
+<br/>
+
+One of the primary engineering goals was to accurately map users worldwide  
+without overloading external APIs, while still handling typos and imperfect  
+data entry gracefully.
+
+The solution combines **normalized search keys**, **local caching**, and  
+a **fallback-first resolution strategy** to ensure both reliability and  
+performance in real-world conditions.
+
+#### Geocoding Workflow Diagram
+![Smart Geocoding Workflow Diagram](docs/diagrams/geocoding-flowchart.svg)
+
+### 🔑 Key files
+
+- 🧠 **Geocoding Core Logic**  
+  [`GeocodingService.ResolveLocationAsync`](code/backend/Services/Geocoding/GeocodingService.cs)  
+  *Handles cache lookup, external API resolution, and fallback persistence.*
+
+- 🧩 **Cache Key Normalization**  
+  [`StringHelper.GenerateSearchKey`](code/backend/Helpers/StringHelper.cs)  
+  *Applies trimming, lowercasing, whitespace collapse, and diacritics removal  
+  to maximize cache hit consistency.*
+
+- 🧭 **Application Endpoints**  
+  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)  
+  [`MembershipController.GetMap`](code/backend/Controllers/MembershipController.cs)  
+  *Processes membership applications and serves map visualization data.*
+
+- ⚙️ **Service Configuration**  
+  [`Program.cs`](code/backend/Program.cs)  
+  *Registers geocoding services and HttpClient dependencies via DI.*
+
+- 🗄 **Data Integrity Guarantees**  
+  [`sql_constraints.sql`](infra/sql/sql_constraints.sql)  
+  *Database constraints prevent duplicate or inconsistent location records.*
+
+➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
+
+</details>
+
+---
+
+<details>
+<summary><strong>2. Async Email Delivery (Outbox Pattern + Background Worker)</strong></summary>
+
+<br/>
+
+To prevent slow or unreliable SMTP providers from blocking API requests,  
+email delivery is fully **decoupled from the request lifecycle** using a  
+**database-backed outbox** and an asynchronous **background worker**.
+
+This design ensures:
+
+- **request responsiveness** (no direct SMTP calls in the API path)  
+- **at-least-once delivery guarantees** with retry/backoff logic  
+- **failure isolation** between user actions and infrastructure issues  
+
+#### Email Outbox Workflow Diagram
+![Email Outbox Workflow Diagram](docs/diagrams/email-outbox-flowchart.svg)
+
+### 🔑 Key files
+
+- 📩 **Outbox Insert (API layer)**  
+  [`MembershipController.SubmitApplication`](code/backend/Controllers/MembershipController.cs)  
+  *Creates an email event and persists it in the EmailOutbox table instead  
+  of sending immediately.*
+
+- 🔁 **Background Worker Processing**  
+  [`EmailOutboxWorker`](code/backend/Services/Email/EmailOutboxWorker.cs)  
+  *Polls pending messages, sends emails asynchronously, and updates status.*
+
+- 🔄 **Retry & Backoff Strategy**  
+  [`EmailOutboxWorker.GetNextDelay`](code/backend/Services/Email/EmailOutboxWorker.cs)  
+  *Implements progressive retry scheduling and terminal failure handling.*
+
+- ✉️ **SMTP Abstraction Layer**  
+  [`IEmailSender`](code/backend/Services/Email/IEmailSender.cs)  
+  *Decouples transport implementation from API and worker logic.*
+
+- 🧾 **Idempotency & Consistency**  
+  [`sql_constraints.sql`](infra/sql/sql_constraints.sql)  
+  *Prevents duplicate message processing and enforces data consistency.*
+
+- ⚙️ **Service Registration**  
+  [`Program.cs`](code/backend/Program.cs)  
+  [`EmailingExtensions.cs`](code/backend/Helpers/EmailingExtensions.cs)  
+  *Registers the worker and email services via Dependency Injection.*
+
+➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
+
+</details>
+
+---
 ## 🛠 Tech Stack
 
 ### Backend
@@ -85,82 +183,6 @@ and VPN-restricted administrative access.
 - **Nominatim (OpenStreetMap)** - location geocoding  
 
 ---
-
-## 🚀 Key Challenges & Solutions
-
-<details>
-<summary><strong>1. Intelligent Geocoding & Fallback-First Caching</strong></summary>
-
-<br/>
-
-One of the primary engineering goals was to map users worldwide accurately without overloading external APIs, while still handling typos and imperfect data entry gracefully.
-
-#### Geocoding Workflow Diagram
-![Smart Geocoding Workflow Diagram](docs/diagrams/geocoding-flowchart.svg)
-
-### 💻 Implementation shortcuts
-
-- 🧠 **Geocoding Core Logic**  
-  [`GeocodingService.ResolveLocationAsync`](backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)  
-  *The heart of the system: handles local cache checks, API requests, and fallback saving.*
-
-- 🧩 **Cache Key Generator**  
-  [`StringHelper.GenerateSearchKey`](backend/src/AlumniApi/Helpers/StringHelper.cs)  
-  *Normalizes city and country names to ensure cache hits.*
-
-- 🧭 **API Controllers**  
-  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs) &  
-  [`GetMap`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
-  *Endpoints for processing applications and serving map data.*
-
-- ⚙️ **Service Configuration**  
-  [`Program.cs`](backend/src/AlumniApi/Program.cs)  
-  *Dependency Injection and HttpClient setup.*
-
-➡️ Details: [`docs/geocoding.md`](docs/geocoding.md)
-
-</details>
-
----
-
-<details>
-<summary><strong>2. Async Email Delivery (Outbox Pattern + Background Worker)</strong></summary>
-
-<br/>
-
-To prevent slow or unreliable SMTP servers from blocking API requests, email delivery is fully decoupled from the request lifecycle using a DB-backed outbox and a background worker.
-
-#### Email Outbox Workflow Diagram
-![Email Outbox Workflow Diagram](docs/diagrams/email-outbox-flowchart.svg)
-
-### 💻 Implementation shortcuts
-
-- 📩 **Outbox Insert (API layer)**  
-  [`MembershipController.SubmitApplication`](backend/src/AlumniApi/Controllers/MembershipController.cs)  
-  *Creates the email message and inserts it into the EmailOutbox table (no direct SMTP call).*
-
-- 🔁 **Background Worker**  
-  [`EmailOutboxWorker`](backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
-  *Periodically polls pending outbox records and sends emails asynchronously.*
-
-- 🔄 **Retry & Backoff Logic**  
-  [`EmailOutboxWorker.GetNextDelay`](backend/src/AlumniApi/Services/Email/EmailOutboxWorker.cs)  
-  *Handles retry scheduling and marks emails as Failed after max attempts.*
-
-- ✉️ **SMTP Abstraction**  
-  [`IEmailSender`](backend/src/AlumniApi/Services/Email/IEmailSender.cs)  
-  *Encapsulates SMTP transport and keeps API and worker decoupled from the provider.*
-
-- ⚙️ **Service Configuration**  
-  [`Program.cs`](backend/src/AlumniApi/Program.cs) |
-  [`EmailingExtensions.cs`](backend/src/AlumniApi/Helpers/EmailingExtensions.cs)
-  *Registers the background worker and SMTP sender via Dependency Injection.*
-
-➡️ Details: [`docs/email-outbox.md`](docs/email-outbox.md)
-
-</details>
-
-
 
 
 ## 🏗 Production Deployment 
