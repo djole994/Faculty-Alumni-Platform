@@ -1,4 +1,7 @@
-# 🎓 Faculty Alumni Platform (Showcase)
+# 🎓 Faculty Alumni Platform - Public Showcase
+
+A production-oriented alumni management platform built with ASP.NET Core and React,  
+focused on secure application flows, data integrity, and real-world deployment practices.
 
 > **Public Showcase / Subset**
 >
@@ -13,28 +16,34 @@
 
 ## What’s included in this public showcase
 
-- Backend: selected API modules (DTOs, services, helpers) related to geocoding & validation  
-- Frontend: map component (Leaflet) + example integration  
-- Docs: architecture notes and flow diagrams  
-- Tests: minimal test coverage for showcased modules  
-
-A centralized digital platform connecting students and graduates of the Medical Faculty.
-
-This project is currently under active development as a modern solution for the Alumni community, aimed at enabling former students to stay connected, track scientific events, and share professional opportunities.
+- **Backend:** selected API modules (DTOs, services, helpers) covering validation, geocoding, and secure application handling  
+- **Frontend:** interactive map component (Leaflet) with example integration  
+- **Security & anti-abuse:** CAPTCHA verification, honeypot protection, rate limiting, and role-based authorization concepts  
+- **Data integrity:** database constraints, normalized email handling, and transactional write patterns  
+- **Reliability patterns:** email outbox approach and retry-safe background processing concepts  
+- **Configuration & deployment awareness:** environment-based configuration and reverse-proxy-ready architecture  
+- **Documentation:** architecture notes, flow diagrams, and engineering decisions  
+- **Tests:** minimal test coverage for representative modules
 
 ---
 
 ## 📖 About the Project
 
 The Alumni Platform transforms how the Medical Faculty interacts with its graduates.  
-Replacing outdated lists and manual workflows, the application provides a modern, interactive experience where users can:
+Replacing outdated lists and manual workflows, the system provides a modern, interactive,  
+and production-oriented digital experience built with ASP.NET Core and React.
 
-- ✅ Create professional profiles and become **verified members** of the organization  
-- 🌍 Visualize global Alumni presence via an **interactive world map**  
-- 🗓️ Register online for **congresses and educational events**  
-- 💼 Access an exclusive **job board** and read inspiring **Alumni Stories**  
-- 💳 View financial reports and subscription statuses (Administrative Dashboard) - **financial module**  
-- ⚙️ Benefit from automation (**geolocation, verification**) and scalability (**data caching**)  
+Users can:
+
+- Create professional profiles and become **verified members** of the organization  
+- Visualize global Alumni presence via an **interactive world map**  
+- Register online for **congresses and educational events**  
+- Access an exclusive **job board** and read inspiring **Alumni Stories**  
+- View financial reports and subscription statuses through an **administrative dashboard**  
+- Benefit from automation (**geolocation, verification**) and scalable data handling (**caching, background processing**)
+
+The platform is designed with a strong focus on **security, data integrity, and real-world deployment practices**,  
+reflecting production requirements rather than demo-level functionality.
 
 ---
 
