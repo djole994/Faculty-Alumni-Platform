@@ -74,13 +74,13 @@ This architecture ensures:
 
 - 🛡️ **Application endpoint & anti-abuse logic:**  
   `POST /api/membership/apply` →  
-  [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
+  [`MembershipController.cs`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - 🤖 **CAPTCHA verification service:**  
-  [`CaptchaService`](../backend/src/AlumniApi/Services/Security/CaptchaService.cs)
+  [`CaptchaService`](code/backend/src/AlumniApi/Services/Security)
 
 - ✅ **DTO validation & rules:**  
-  [`MembershipApplicationDto.cs`](../backend/src/AlumniApi/DTOs/MembershipApplicationDto.cs)
+  [`MembershipApplicationDto.cs`](code/backend/src/AlumniApi/DTOs/MembershipDto/MembershipApplicationDto.cs)
 
 - 🧱 **Database integrity constraints:**  
   [`sql_constraints.sql`](../infra/sql/sql_constraints.sql)
