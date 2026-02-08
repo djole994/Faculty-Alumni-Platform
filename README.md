@@ -182,7 +182,7 @@ and **database-level least-privilege access control** to ensure secure and
 reliable processing of sensitive personal data.
 
 #### Secure Application Flow Diagram
-![Secure Application Flow](docs/diagrams/secure-apply-flow.svg)
+![Secure Application Flow](docs/diagrams/secureapp-flowchart.svg)
 
 ### 🔑 Key files
 
