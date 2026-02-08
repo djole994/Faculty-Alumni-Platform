@@ -77,7 +77,7 @@ This architecture ensures:
   [`MembershipController.cs`](../code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - 🤖 **CAPTCHA verification service:**  
-  [`CaptchaService`](../code/backend/src/AlumniApi/Services/Security)
+  [`CaptchaService`](../code/backend/src/AlumniApi/Services/Security/CaptchaService.cs)
 
 - ✅ **DTO validation & rules:**  
   [`MembershipApplicationDto.cs`](../code/backend/src/AlumniApi/DTOs/MembershipDto/MembershipApplicationDto.cs)
