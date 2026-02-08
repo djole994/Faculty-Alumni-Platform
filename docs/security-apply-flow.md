@@ -74,7 +74,7 @@ This architecture ensures:
 
 - 🛡️ **Application endpoint & anti-abuse logic:**  
   `POST /api/membership/apply` →  
-  [`MembershipController.cs`](code/backend/src/AlumniApi/Controllers/MembershipController.cs)
+  [`MembershipController.cs`](../code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - 🤖 **CAPTCHA verification service:**  
   [`CaptchaService`](code/backend/src/AlumniApi/Services/Security)
