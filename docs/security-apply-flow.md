@@ -77,10 +77,10 @@ This architecture ensures:
   [`MembershipController.cs`](../code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
 - 🤖 **CAPTCHA verification service:**  
-  [`CaptchaService`](code/backend/src/AlumniApi/Services/Security)
+  [`CaptchaService`](../code/backend/src/AlumniApi/Services/Security)
 
 - ✅ **DTO validation & rules:**  
-  [`MembershipApplicationDto.cs`](code/backend/src/AlumniApi/DTOs/MembershipDto/MembershipApplicationDto.cs)
+  [`MembershipApplicationDto.cs`](../code/backend/src/AlumniApi/DTOs/MembershipDto/MembershipApplicationDto.cs)
 
 - 🧱 **Database integrity constraints:**  
   [`sql_constraints.sql`](../infra/sql/sql_constraints.sql)
