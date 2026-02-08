@@ -21,32 +21,32 @@ To solve this, I implemented a **"Fallback-First" Caching Strategy**:
 > **📉 Impact:** This architecture ensures **100% data availability**. Every user is mapped immediately (at least to their country level), while API usage is minimized strictly to new, unique locations.
 
 #### Geocoding Workflow Diagram
-![Smart Geocoding Workflow Diagram](../assets/diagrams/geocoding-flowchart.svg)
+![Smart Geocoding Workflow Diagram](../diagrams/geocoding-flowchart.svg)
 
 ## 🔗 Key code references
 
 ### Backend (API)
-- 🧠 **Geocoding service (core flow):** - [`GeocodingService.cs`](../backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
-  - Interface: [`IGeocodingService.cs`](../backend/src/AlumniApi/Services/Geocoding/IGeocoding.cs)
+- 🧠 **Geocoding service (core flow):** - [`GeocodingService.cs`](../code/backend/src/AlumniApi/Services/Geocoding/Geocoding.cs)
+  - Interface: [`IGeocodingService.cs`](../code/backend/src/AlumniApi/Services/Geocoding/IGeocoding.cs)
 
-- 🧩 **Normalization / cache-key:** - [`StringHelper.cs`](../backend/src/AlumniApi/Helpers/StringHelper.cs)
+- 🧩 **Normalization / cache-key:** - [`StringHelper.cs`](../code/backend/src/AlumniApi/Helpers/StringHelper.cs)
 
-- 🧾 **Endpoint that triggers geocoding:** - `POST /api/membership/apply` → [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
+- 🧾 **Endpoint that triggers geocoding:** - `POST /api/membership/apply` → [`MembershipController.cs`](../code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
-- 🌍 **Map data endpoint:** - `GET /api/membership/map` → [`MembershipController.cs`](../backend/src/AlumniApi/Controllers/MembershipController.cs)
+- 🌍 **Map data endpoint:** - `GET /api/membership/map` → [`MembershipController.cs`](../code/backend/src/AlumniApi/Controllers/MembershipController.cs)
 
-- 🗃️ **Data models / caching table:** - [`GeoCache model`](../backend/src/AlumniApi/Models/GeoCache.cs)  
-  - (optional) DbContext: [`AlumniContext`](../backend/src/AlumniApi/Models/AlumniContext.cs)
+- 🗃️ **Data models / caching table:** - [`GeoCache model`](../code/backend/src/AlumniApi/Models/GeoCache.cs)  
+  - (optional) DbContext: [`AlumniContext`](../code/backend/src/AlumniApi/Models/AlumniContext.cs)
 
 - 🌐 **Country fallback seed (default country coordinates):**
-  - [`001_countries.sql`](../backend/scripts/001_countries.sql)
+  - [`001_countries.sql`](../code/backend/scripts/001_countries.sql)
     
-- ⚙️ **HttpClient configuration:** - [`Program.cs`](../backend/src/AlumniApi/Program.cs)
+- ⚙️ **HttpClient configuration:** - [`Program.cs`](../code/backend/src/AlumniApi/Program.cs)
 
-- 🧪 **Unit Testing (QA):** - [`GeocodingTests.cs`](../backend/tests/GeocodingTests.cs) _(Validates cache hits, API integration & fallback logic)_
+- 🧪 **Unit Testing (QA):** - [`GeocodingTests.cs`](../code/backend/tests/GeocodingTests.cs) _(Validates cache hits, API integration & fallback logic)_
 
 ### Frontend (World Map)
-- 🗺️ **World map component:** - [`WorldMap` / `MapPage`](../frontend/src/components/WorldMap/WorldMap.jsx)
+- 🗺️ **World map component:** - [`WorldMap` / `MapPage`](../code/frontend/src/components/WorldMap/WorldMap.jsx)
 
 ### 💡 Why this approach? (Project Constraints & Quality Assurance)
 This architecture was specifically chosen to meet two critical client requirements:
@@ -54,5 +54,5 @@ This architecture was specifically chosen to meet two critical client requiremen
 2.  **100% Data Integrity:** While automation handles 95% of cases, the "Admin Review" feature ensures that no user is ever lost or mapped incorrectly due to API limitations.
     * *Note:* Critical logic (such as the fallback mechanism) is covered by **Unit Tests** to prevent regression.
     *  Country-level fallback coordinates come from a small reference dataset seeded via
-[`001_countries.sql`](../backend/scripts/001_countries.sql).
+[`001_countries.sql`](../code/backend/scripts/001_countries.sql).
 
