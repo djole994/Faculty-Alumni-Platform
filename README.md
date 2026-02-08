@@ -334,8 +334,7 @@ The following files demonstrate representative **production-level patterns**:
 - **Reverse Proxy & Production Routing Example**  
   [`infra/nginx/nginx.example.conf`](infra/nginx/nginx.example.conf)
 
-These snippets focus on **security, reliability, and real-world production behavior**  
-rather than UI completeness.
+These snippets focus on **security, reliability, and real-world production behavior** rather than UI completeness.
 ---
 
 
