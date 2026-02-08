@@ -64,7 +64,7 @@ This architecture ensures:
 ---
 
 #### Secure Application Flow Diagram
-![Secure Application Flow](../assets/diagrams/secure-apply-flow.svg)
+![Secure Application Flow](docs/diagrams/secureapp-flowchart.svg)
 
 ---
 
