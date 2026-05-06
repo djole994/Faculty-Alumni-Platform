@@ -82,7 +82,7 @@ and VPN-restricted administrative access.
 ## 🚀 Key Challenges & Solutions
 
 <details>
-<summary><strong>1. Intelligent Geocoding & Fallback-First Caching</strong></summary>
+<summary>1. Intelligent Geocoding & Fallback-First Caching</summary>
 
 <br/>
 
