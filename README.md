@@ -19,9 +19,7 @@ Faculty Alumni Platform is built for:
 - **Alumni (graduates)** - stay connected with classmates and the faculty, maintain a professional profile, share memories/stories, and follow news & events.
 - **Alumni organization / faculty staff** - manage verified alumni records, communicate faster with the community, publish announcements and opportunities, and track engagement.
 - **Students & future alumni (optional)** - discover alumni paths, events, mentorship opportunities, and keep a bridge to the community after graduation.
-
 **Goal:** create one trusted place for alumni communication, profiles, and events — reducing manual spreadsheets, scattered contact lists, and fragmented communication channels.
-
 
 ---
 
